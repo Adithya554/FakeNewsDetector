@@ -8,6 +8,7 @@ from nltk.tokenize import word_tokenize
 from sklearn.feature_extraction.text import TfidfVectorizer
 import os
 import gdown
+import pickle
 
 # Initialize Flask app
 app = Flask("app")
