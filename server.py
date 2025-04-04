@@ -37,7 +37,7 @@ if not os.path.exists(vectorizer_path):
 vectorizer = joblib.load(vectorizer_path) 
 # Load the trained model
 with open(model_path, "rb") as f:
-    model = pickle.load(f)
+    model = joblib.load(f)
 
 
 
