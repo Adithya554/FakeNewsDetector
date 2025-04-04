@@ -15,7 +15,8 @@ app = Flask("app")
 
 nltk.download('punkt')
 nltk.download('punkt_tab')
-
+nltk.download('stopwords')
+nltk.download('wordnet')
 # URLs for model and vectorizer
 model_url = "https://drive.google.com/uc?id=1rEjXwfeqtiMzouFCvgJYAWrbHOMc9itY"
 vectorizer_url = "https://drive.google.com/uc?id=18Jkt58N6_t-DM6zFuGcT2CPRivch2Wvt"
