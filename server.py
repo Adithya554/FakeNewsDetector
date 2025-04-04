@@ -30,9 +30,7 @@ if not os.path.exists(vectorizer_path):
     gdown.download(vectorizer_url, vectorizer_path, quiet=False)
 
 # Load the vectorizer
-with open(vectorizer_path, "rb") as f:
-    vectorizer = pickle.load(f)
-
+vectorizer = joblib.load(vectorizer_path) 
 # Load the trained model
 with open(model_path, "rb") as f:
     model = pickle.load(f)
