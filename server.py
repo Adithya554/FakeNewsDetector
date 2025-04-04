@@ -15,7 +15,7 @@ app = Flask("app")
 
 # URLs for model and vectorizer
 model_url = "https://drive.google.com/uc?id=1rEjXwfeqtiMzouFCvgJYAWrbHOMc9itY"
-vectorizer_url = "https://drive.google.com/uc/id=18Jkt58N6_t-DM6zFuGcT2CPRivch2Wvt"
+vectorizer_url = "https://drive.google.com/uc?id=18Jkt58N6_t-DM6zFuGcT2CPRivch2Wvt"
 
 # Paths for saving the files
 model_path = "model.pkl"
