@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import joblib
+import analysis
 from analysis import preprocess_text  # Import the preprocessing function
 
 # Initialize Flask app
