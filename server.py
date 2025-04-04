@@ -4,7 +4,7 @@ import analysis
 from analysis import preprocess_text  # Import the preprocessing function
 
 # Initialize Flask app
-app = Flask("app")
+app = Flask(__name__)
 
 # Load the trained model
 try:
