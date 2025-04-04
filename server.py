@@ -13,16 +13,30 @@ import pickle
 # Initialize Flask app
 app = Flask("app")
 
+# URLs for model and vectorizer
 model_url = "https://drive.google.com/uc?id=1rEjXwfeqtiMzouFCvgJYAWrbHOMc9itY"
+vectorizer_url = "https://drive.google.com/uc?id=18Jkt58N6_t-DM6zFuGcT2CPRivch2Wvt"
+
+# Paths for saving the files
 model_path = "model.pkl"
+vectorizer_path = "vectorizer.pkl"
 
 # Download the model if it does not exist
 if not os.path.exists(model_path):
     gdown.download(model_url, model_path, quiet=False)
 
-# Load the trained model and vectorizer
+# Download the vectorizer if it does not exist
+if not os.path.exists(vectorizer_path):
+    gdown.download(vectorizer_url, vectorizer_path, quiet=False)
+
+# Load the vectorizer
+with open(vectorizer_path, "rb") as f:
+    vectorizer = pickle.load(f)
+
+# Load the trained model
 with open(model_path, "rb") as f:
-    vectorizer, model = pickle.load(f)
+    model = pickle.load(f)
+
 
 
 # Function to preprocess text
