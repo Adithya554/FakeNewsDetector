@@ -1,46 +1,48 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import joblib
-import analysis
-from analysis import preprocess_text  # Import the preprocessing function
+import re
+import string
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Initialize Flask app
-app = Flask(__name__)
+app = Flask("app")
 
-# Load the trained model
-try:
-    model = joblib.load("fake_news_model.pkl")  # Load the model only once
-except Exception as e:
-    print(f"Error loading the model: {e}")
-    model = None  # Set to None if the model can't be loaded
+# Load the trained model and vectorizer
+model = joblib.load("model.pkl")
+vectorizer = joblib.load("vectorizer.pkl")
 
-@app.route("/predict", methods=["POST"])
+# Function to preprocess text
+def preprocess_text(text):
+    text = text.lower()
+    text = re.sub(f"[{string.punctuation}]", "", text)
+    words = word_tokenize(text)
+    words = [word for word in words if word.isalpha() and word not in stopwords.words("english")]
+    return " ".join(words)
+
+@app.route('/')
+def home():
+    return render_template("index.html")
+
+@app.route('/predict', methods=['POST'])
 def predict():
-    """Receives JSON input, processes it, and returns a fake/real news prediction."""
-    
-    if model is None:
-        return jsonify({"error": "Model is not loaded properly."}), 500
-
     try:
         data = request.get_json()
-
-        # Check if 'text' field is present in the request
-        if "text" not in data:
-            return jsonify({"error": "Missing 'text' field in the request"}), 400
-
-        text = data["text"]
-
-        # Preprocess the text before prediction
-        processed_text = preprocess_text(text)
-
-        # Predict on preprocessed text
-        prediction = model.predict([processed_text])[0]  
-        result = "Fake News" if prediction == 1 else "Real News"
+        news_text = data.get("text", "")
+        if not news_text.strip():
+            return jsonify({"error": "No text provided"}), 400
+        
+        # Preprocess and vectorize the input text
+        processed_text = preprocess_text(news_text)
+        vectorized_text = vectorizer.transform([processed_text])
+        prediction = model.predict(vectorized_text)[0]
+        result = "Real News" if prediction == 1 else "Fake News"
         
         return jsonify({"prediction": result})
     except Exception as e:
-        print(f"Error during prediction: {e}")  # Log the error to the console
-        return jsonify({"error": f"Error during prediction: {e}"}), 500
+        return jsonify({"error": str(e)})
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
