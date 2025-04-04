@@ -14,6 +14,7 @@ import pickle
 app = Flask("app")
 
 nltk.download('punkt')
+nltk.download('punkt_tab')
 
 # URLs for model and vectorizer
 model_url = "https://drive.google.com/uc?id=1rEjXwfeqtiMzouFCvgJYAWrbHOMc9itY"
