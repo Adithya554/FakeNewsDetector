@@ -6,13 +6,21 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from sklearn.feature_extraction.text import TfidfVectorizer
+import os
+import gdown
 
 # Initialize Flask app
 app = Flask("app")
 
+modelurl="https://drive.google.com/drive/folders/1cVkckA7MB3EWLSiS_Liooa1Pqdy-lkHg?usp=drive_link"
+modelpath="model.pkl"
 # Load the trained model and vectorizer
-model = joblib.load("model.pkl")
-vectorizer = joblib.load("vectorizer.pkl")
+
+if not os.path.exists(model_path):
+    gdown.download(model_url, model_path, quiet=False)
+
+with open(model_path, "rb") as f:
+    vectorizer, model = pickle.load(f)
 
 # Function to preprocess text
 def preprocess_text(text):
