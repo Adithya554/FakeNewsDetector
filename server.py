@@ -12,8 +12,8 @@ import gdown
 # Initialize Flask app
 app = Flask("app")
 
-modelurl="https://drive.google.com/drive/folders/1cVkckA7MB3EWLSiS_Liooa1Pqdy-lkHg?usp=drive_link"
-modelpath="model.pkl"
+model_url="https://drive.google.com/drive/folders/1cVkckA7MB3EWLSiS_Liooa1Pqdy-lkHg?usp=drive_link"
+model_path="model.pkl"
 # Load the trained model and vectorizer
 
 if not os.path.exists(model_path):
